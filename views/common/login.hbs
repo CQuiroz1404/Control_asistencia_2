@@ -1,0 +1,125 @@
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+  <div class="card shadow-lg p-4 rounded-4" style="max-width: 400px; width: 100%;">
+    <div class="text-center mb-4">
+      <i class="fa-solid fa-user-shield fa-3x text-primary"></i>
+      <h2 class="mt-2">Inicio de sesión</h2>
+      <p class="text-muted small">Ingrese sus datos</p>
+    </div>
+
+    {{#if error}}
+      <div class="alert alert-danger" role="alert">
+        {{error}}
+      </div>
+    {{/if}}
+
+    <form action="/login" method="post">
+      <fieldset>
+        <div class="mb-3">
+          <label for="rut" class="form-label">Rut:</label>
+          <input type="text" name="rut" id="rut" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Contraseña:</label>
+          <div class="input-group">
+            <input type="password" name="password" id="password" class="form-control" required>
+            <button type="button" class="btn btn-outline-secondary toggle-password" data-target="password">
+              <i class="fa fa-eye"></i>
+            </button>
+          </div>
+        </div>
+        <p class="text-center text-muted small">¿Olvidaste tu contraseña? Contacte al administrador</p>
+        <button type="submit" class="btn btn-primary w-100"> 
+          <i class="fa-solid fa-right-to-bracket me-2"></i>Iniciar
+        </button>
+      </fieldset>
+    </form>
+    <button type="button" class="btn btn-secondary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#qrLoginModal">
+        <i class="fa-solid fa-qrcode me-2"></i>Iniciar Sesión con QR
+    </button>
+  </div>
+</div>
+
+<!-- Modal para Login con QR -->
+<div class="modal fade" id="qrLoginModal" tabindex="-1" aria-labelledby="qrLoginModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="qrLoginModalLabel">Iniciar Sesión con Código QR</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Escanea tu código QR de acceso:</p>
+        <div id="qr-reader-login" style="width:100%;"></div>
+        <div id="qrLoginMessage" class="mt-3"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="/js/qrLoginScanner.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Función para validar formato de correo electrónico
+  function validateEmail(email) {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  }
+
+  // Toggle mostrar/ocultar contraseña
+  document.addEventListener('click', (event) => {
+    if (event.target.closest('.toggle-password')) {
+      const button = event.target.closest('.toggle-password');
+      const targetId = button.getAttribute('data-target');
+      const input = document.getElementById(targetId);
+      const icon = button.querySelector('i');
+
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    }
+  });
+
+  // Formateo automático de RUT en login (números, K, puntos y guiones)
+  const rutInput = document.getElementById('rut');
+  if (rutInput) {
+    rutInput.addEventListener('input', function(e) {
+      let value = e.target.value.replace(/[^0-9Kk.\-]/g, '').toUpperCase();
+      if (value.length > 12) value = value.slice(0, 12); // Aumentar límite para incluir puntos y guiones
+      e.target.value = value;
+    });
+  }
+
+  // Validar formulario de login antes de enviar
+  const loginForm = document.querySelector('form[action="/login"]');
+  if (loginForm) {
+    loginForm.addEventListener('submit', function(e) {
+      const rut = document.getElementById('rut').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!rut) {
+        e.preventDefault();
+        alert('Por favor ingrese su RUT');
+        return;
+      }
+
+      if (!password) {
+        e.preventDefault();
+        alert('Por favor ingrese su contraseña');
+        return;
+      }
+
+      // Aquí podríamos agregar más validaciones si es necesario
+    });
+  }
+});
+</script>

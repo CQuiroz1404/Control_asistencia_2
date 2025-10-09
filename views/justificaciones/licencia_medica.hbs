@@ -1,0 +1,66 @@
+<div class="container mt-4">
+    <h2>Cargar Licencia Médica</h2>
+    <p class="text-muted">Sube el archivo PDF de tu licencia médica para extraer la información automáticamente.</p>
+
+    <div class="card">
+        <div class="card-body">
+            <form id="form-licencia">
+                <input type="hidden" id="id-usuario" name="id_usuario" value="{{usuario.id}}">
+                <div class="mb-3">
+                    <label for="archivo-licencia" class="form-label">Selecciona el archivo PDF:</label>
+                    <input class="form-control" type="file" id="archivo-licencia" accept=".pdf">
+                </div>
+                <div class="mt-3">
+                    <a href="/dashboard_usuario" class="btn btn-secondary me-2"><i class="fa-solid fa-arrow-left me-2"></i>Volver</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="spinner" class="text-center mt-4" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p>Extrayendo datos del PDF...</p>
+    </div>
+
+    <div id="resultados-licencia" class="mt-4" style="display: none;">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h2 class="text-center mb-3">Datos Extraídos</h2>
+                <p class="text-center text-muted mb-4">Información de la licencia médica</p>
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>Folio:</strong> <span id="folio" class="float-end"></span></li>
+                            <li class="list-group-item"><strong>Nombre:</strong> <span id="nombre" class="float-end"></span></li>
+                            <li class="list-group-item"><strong>RUT:</strong> <span id="rut" class="float-end"></span></li>
+                            <li class="list-group-item"><strong>Edad:</strong> <span id="edad" class="float-end"></span></li>
+                            <li class="list-group-item"><strong>Sexo:</strong> <span id="sexo" class="float-end"></span></li>
+                            <li class="list-group-item"><strong>Tipo de Licencia:</strong> <span id="tipoLicencia" class="float-end"></span></li>
+                            <li class="list-group-item"><strong>Fecha de Emisión:</strong> <span id="fechaEmision" class="float-end"></span></li>
+                            <li class="list-group-item"><strong>Inicio de Reposo:</strong> <span id="inicioReposo" class="float-end"></span></li>
+                            <li class="list-group-item"><strong>Fecha de Término:</strong> <span id="fechaTermino" class="float-end"></span></li>
+                            <li class="list-group-item"><strong>N° de días:</strong> <span id="dias" class="float-end"></span></li>
+                            <li class="list-group-item"><strong>Profesional:</strong> <span id="profesional" class="float-end"></span></li>
+                            <li class="list-group-item"><strong>Teléfono:</strong> <span id="telefono" class="float-end"></span></li>
+                            <li class="list-group-item"><strong>Dirección Reposo:</strong> <span id="direccion" class="float-end"></span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-3 text-center">
+                    <button type="button" id="enviar-licencia-btn" class="btn btn-primary">Enviar Justificación</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#section 'scripts'}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+    {{!-- pdfjsLib.GlobalWorkerOptions.workerSrc y la lógica de extracción ahora están en pdfExtractor.js --}}
+    <script src="/js/pdfExtractor.js"></script>
+    <!-- SweetAlert2 para notificaciones en frontend (Swal) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/licenseFrontend.js"></script>
+{{/section}}

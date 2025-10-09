@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Credenciales creadas</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; color: #333; }
+    .container { max-width:600px; margin:0 auto; padding:20px; }
+    .header { background:#0069d9; color:#fff; padding:12px; border-radius:6px 6px 0 0; }
+    .content { background:#fff; border:1px solid #e5e5e5; padding:16px; }
+    .qr { text-align:center; margin-top:16px; }
+    .footer { font-size:12px; color:#777; margin-top:16px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Bienvenido al Sistema de Asistencia</h2>
+    </div>
+    <div class="content">
+      <p>Hola <strong>{{ NOMBRE }}</strong>,</p>
+      <p>Se han creado sus credenciales de acceso al sistema.</p>
+      <p><strong>RUT:</strong> {{ RUT }}<br/>
+      <strong>Contraseña:</strong> {{ PASSWORD }}</p>
+
+      <p>Por favor, cambie su contraseña al ingresar por primera vez.</p>
+
+      <div class="qr">
+        <p>Adjuntamos su código QR de acceso:</p>
+        <img src="cid:user_qr" alt="Código QR" style="max-width:240px;"/>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Si no solicitó esta cuenta, ignore este correo o contacte al administrador.</p>
+    </div>
+  </div>
+</body>
+</html>

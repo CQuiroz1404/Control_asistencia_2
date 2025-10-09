@@ -1,0 +1,183 @@
+/* Estilos globales minimalistas */
+:root{
+	/* Fondo base: tono muy suave y agradable, neutro-azulado */
+	--bg-1: #E6DFD7; /* fondo principal suave */
+	--bg-2: #F6F3EE; /* tarjetas */
+	--accent: #4f46e5; /* color acento (indigo-600) */
+	--muted: #6b7280; /* texto secundario */
+	--success: #16a34a; /* verde para éxitos */
+}
+
+html,body{
+	height:100%;
+	margin:0;
+	padding:0;
+	font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+		/* Fondo con ligeros focos radiales que dan profundidad sin distraer */
+			background: radial-gradient(800px 360px at 8% 12%, rgba(79,70,229,0.04), transparent 8%),
+									radial-gradient(700px 300px at 92% 88%, rgba(59,130,246,0.02), transparent 6%),
+									var(--bg-1) !important;
+	color: #111827;
+	-webkit-font-smoothing:antialiased;
+	-moz-osx-font-smoothing:grayscale;
+}
+
+/* Contenedor principal para centrar y dar separación */
+.container{
+	max-width:1100px;
+}
+
+/* Encabezados con acciones (por ejemplo: Gestión de Usuarios) */
+/* Específico para la vista de gestión de usuarios */
+.user-crud .header-actions{
+	display:flex;
+	gap:.5rem;
+	align-items:center;
+}
+
+.user-crud .header-actions .btn{
+	height:40px;
+	padding:.4rem .75rem;
+	display:inline-flex;
+	align-items:center;
+}
+
+@media (max-width:540px){
+	.user-crud .d-flex.justify-content-between.align-items-center.mb-3{
+		flex-direction:column;
+		gap:.75rem;
+		align-items:stretch;
+	}
+	.user-crud .header-actions{ justify-content:flex-end; }
+}
+
+/* Alineación de botones en filas de tabla (acciones) */
+.table-actions{
+	display:inline-flex;
+	gap:.4rem;
+	align-items:center;
+	flex-wrap:nowrap; /* evitar que los botones se vayan a la siguiente línea */
+}
+.table-actions .btn{ white-space:nowrap; }
+.table-actions .btn + .btn{ margin-left: .35rem; }
+
+/* Asegurar espacio suficiente para la columna de acciones en la gestión de usuarios
+	 Evita que el botón "Desactivar" quede recortado al final de la tabla */
+.user-crud table th:last-child,
+.user-crud table td:last-child {
+	min-width: 170px; /* espacio mínimo para botones de acción */
+	white-space: nowrap; /* evitar salto de línea dentro de la celda */
+}
+
+/* Tarjetas ligeras */
+.card{
+	background: var(--bg-2);
+	border-radius: 12px;
+	box-shadow: 0 6px 18px rgba(17,24,39,0.06);
+	border: 1px solid rgba(15,23,42,0.03);
+}
+
+.card-header{
+	background: transparent;
+	border-bottom: none;
+	font-weight:600;
+}
+
+/* Botones con acento sutil */
+.btn-primary{
+	background: linear-gradient(180deg,var(--accent), #3730a3);
+	border: none;
+	box-shadow: 0 6px 12px rgba(79,70,229,0.12);
+}
+
+.btn-secondary{
+	background: linear-gradient(180deg,#f1f3fb,#e6e9f8);
+	color: #111827;
+	border: none;
+	box-shadow: 0 6px 10px rgba(17,24,39,0.04);
+}
+
+/* General 3D button styles to make all buttons consistent */
+.btn{
+	border-radius: 8px;
+	transition: transform .08s linear, box-shadow .12s linear;
+	transform: translateY(0);
+}
+
+.btn:active{
+	transform: translateY(1px);
+	box-shadow: 0 3px 8px rgba(17,24,39,0.10) !important;
+}
+
+.btn:disabled, .btn[disabled]{
+	opacity: 0.7;
+	filter: grayscale(.02);
+	box-shadow: none !important;
+}
+
+/* Success / Verde */
+.btn-success{
+	background: linear-gradient(180deg,#34d399,#10b981);
+	border: none;
+	box-shadow: 0 6px 12px rgba(16,185,129,0.12);
+	color: #fff;
+}
+
+/* Info / Azul claro */
+.btn-info{
+	background: linear-gradient(180deg,#60a5fa,#3b82f6);
+	border: none;
+	box-shadow: 0 6px 12px rgba(59,130,246,0.12);
+	color: #fff;
+}
+
+/* Warning / Naranja */
+.btn-warning{
+	background: linear-gradient(180deg,#ffbf69,#f97316);
+	border: none;
+	box-shadow: 0 6px 12px rgba(249,115,22,0.12);
+	color: #fff;
+}
+
+/* Danger / Rojo (para desactivar) */
+.btn-danger{
+	background: linear-gradient(180deg,#fb7185,#ef4444);
+	border: none;
+	box-shadow: 0 6px 12px rgba(239,68,68,0.12);
+	color: #fff;
+}
+
+/* Notificaciones (alerts) */
+.alert-success{
+	background: rgba(22,163,74,0.08);
+	border: 1px solid rgba(16,185,129,0.12);
+	color: var(--success);
+}
+
+.alert-danger{
+	background: rgba(239,68,68,0.06);
+	border: 1px solid rgba(239,68,68,0.10);
+}
+
+/* Ajustes de modal para que se vea integrado */
+.modal-content{
+	border-radius: 12px;
+	overflow: hidden;
+}
+
+/* Pequeñas utilidades */
+.text-muted{ color: var(--muted) !important; }
+.mt-2{ margin-top: .5rem; }
+
+/* Responsive tweaks */
+@media (max-width: 720px){
+	.container{ padding-left: 14px; padding-right: 14px; }
+	.card{ border-radius: 10px; }
+}
+
+/* Accesibilidad: foco visible para botones */
+.btn:focus{
+	outline: 3px solid rgba(79,70,229,0.12);
+	outline-offset: 2px;
+}
+

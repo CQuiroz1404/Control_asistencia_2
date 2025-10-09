@@ -1,0 +1,42 @@
+{
+  "name": "control_de_asistencia",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/D4rK14/Control_de_asistencia.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/D4rK14/Control_de_asistencia/issues"
+  },
+  "homepage": "https://github.com/D4rK14/Control_de_asistencia#readme",
+  "description": "",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.2",
+    "express-session": "^1.18.2",
+    "handlebars": "^4.7.8",
+    "jsonwebtoken": "^9.0.2",
+    "moment-timezone": "^0.6.0",
+    "multer": "^2.0.2",
+    "mysql2": "^3.14.3",
+    "nodemailer": "^6.10.1",
+    "pdf-parse": "^1.1.1",
+  "pdfkit": "^0.13.0",
+    "pdfjs-dist": "^5.4.149",
+    "qrcode": "^1.5.4",
+    "sequelize": "^6.37.7",
+    "uuid": "^13.0.0"
+  }
+}

@@ -1,0 +1,229 @@
+<body>
+  <div class="container mt-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Mis Reportes de Asistencia</h2>
+      <a href="/dashboard_usuario" class="btn btn-secondary">← Volver</a>
+    </div>
+
+    <div class="mb-4">
+        <button class="btn btn-info" type="button" id="toggleCalendarBtn" aria-expanded="false" aria-controls="calendarCollapse">
+            Ver Calendario
+        </button>
+    </div>
+
+    <!-- Calendario de Asistencia -->
+    <div class="collapse" id="calendarCollapse">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Calendario de Asistencia</h5>
+            </div>
+            <div class="card-body">
+                <div id='calendar'></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Reportes personales -->
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Historial de Asistencias</h5>
+      </div>
+      <div class="card-body">
+        {{#if asistencias.length}}
+        <!-- Filtros de categoría -->
+        <div class="mb-3">
+          <h6>Filtros por Categoría:</h6>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="filter-all" checked>
+                <label class="form-check-label" for="filter-all">Todos</label>
+              </div>
+
+              <div class="form-check form-check-inline">
+                <input class="form-check-input category-filter" type="checkbox" id="filter-entrada-normal" value="Entrada Normal" checked>
+                <label class="form-check-label"><span class="badge bg-success">Entrada Normal</span></label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input category-filter" type="checkbox" id="filter-salida-normal" value="Salida Normal" checked>
+                <label class="form-check-label"><span class="badge bg-primary">Salida Normal</span></label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input category-filter" type="checkbox" id="filter-salida-anticipada" value="Salida Anticipada" checked>
+                <label class="form-check-label"><span class="badge bg-warning">Salida Anticipada</span></label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input category-filter" type="checkbox" id="filter-atraso" value="Atraso" checked>
+                <label class="form-check-label"><span class="badge bg-danger">Atraso</span></label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input category-filter" type="checkbox" id="filter-inasistencia" value="Inasistencia" checked>
+                <label class="form-check-label"><span class="badge bg-dark">Inasistencia</span></label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input category-filter" type="checkbox" id="filter-falta-licencia" value="Falta Justificada - Licencia Médica" checked>
+                <label class="form-check-label"><span class="badge bg-info">Falta Justificada - Licencia Médica</span></label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input category-filter" type="checkbox" id="filter-falta-inasistencia" value="Falta Justificada - Inasistencia" checked>
+                <label class="form-check-label"><span class="badge bg-success">Falta Justificada - Inasistencia</span></label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input category-filter" type="checkbox" id="filter-atrasado-salida" value="atrasado y salida anticipada" checked>
+                <label class="form-check-label"><span class="badge bg-info">atrasado y salida anticipada</span></label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-striped table-hover" id="asistenciasTable">
+            <thead class="table-dark">
+              <tr>
+                <th>Fecha</th>
+                <th>Hora Entrada</th>
+                <th>Hora Salida</th>
+                <th>Categoría</th>
+                <th>Justificación</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each asistencias}}
+              <tr>
+                <td>{{this.fecha}}</td>
+                <td>{{this.hora_entrada}}</td>
+                <td>{{this.hora_salida}}</td>
+                <td>
+                  <span class="badge 
+                    {{#if (eq this.categoria.nombre 'Entrada Normal')}}bg-success
+                    {{else if (eq this.categoria.nombre 'Salida Normal')}}bg-primary
+                    {{else if (eq this.categoria.nombre 'Salida Anticipada')}}bg-warning
+                    {{else if (eq this.categoria.nombre 'Atraso')}}bg-danger
+                    {{else if (eq this.categoria.nombre 'Inasistencia')}}bg-dark
+                    {{else if (eq this.categoria.nombre 'atrasado y salida anticipada')}}bg-info
+                    {{else}}bg-secondary{{/if}}">
+                    {{this.categoria.nombre}}
+                  </span>
+                </td>
+                <td>
+                  {{#if this.documento}}
+                    <a href="{{this.documento}}" target="_blank" class="btn btn-sm btn-outline-primary">
+                      <i class="fas fa-file-pdf"></i> Ver Documento
+                    </a>
+                  {{else}}
+                    <span class="text-muted">Sin justificación</span>
+                  {{/if}}
+                </td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+        {{else}}
+        <div class="text-center py-5">
+          <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+          <h5 class="text-muted">No hay registros de asistencia</h5>
+          <p class="text-muted">Aún no has registrado ninguna asistencia en el sistema.</p>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmación -->
+  <div class="modal fade" id="confirmLogoutModal" tabindex="-1" aria-labelledby="confirmLogoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmLogoutModalLabel">Confirmar Cierre de Sesión</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que quieres cerrar sesión?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <a href="/logout" class="btn btn-primary">Cerrar Sesión</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+  <script>
+    window.usuarioId = {{usuario.id}};
+    const calendarEventsData = JSON.parse('{{{calendarEvents}}}');
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicialización del calendario
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'es',
+            height: 500,
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events: calendarEventsData
+        });
+
+        // Control del colapso del calendario
+        var calendarCollapseElement = document.getElementById('calendarCollapse');
+        var toggleCalendarBtn = document.getElementById('toggleCalendarBtn');
+        var calendarCollapse = new bootstrap.Collapse(calendarCollapseElement, { toggle: false });
+
+        toggleCalendarBtn.addEventListener('click', function() {
+            calendarCollapse.toggle();
+        });
+
+        calendarCollapseElement.addEventListener('shown.bs.collapse', function () {
+            calendar.render();
+            toggleCalendarBtn.textContent = 'Ocultar Calendario';
+        });
+        
+        calendarCollapseElement.addEventListener('hidden.bs.collapse', function () {
+            toggleCalendarBtn.textContent = 'Ver Calendario';
+        });
+
+        // Filtrado de categorías
+        const filterAll = document.getElementById('filter-all');
+        const categoryFilters = document.querySelectorAll('.category-filter');
+        const tableRows = document.querySelectorAll('#asistenciasTable tbody tr');
+
+        function applyFilters() {
+            const selectedCategories = new Set(Array.from(categoryFilters)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value));
+
+            tableRows.forEach(row => {
+                const categoryCell = row.querySelector('td:nth-child(4) .badge');
+                if (categoryCell) {
+                    const categoryName = categoryCell.textContent.trim();
+                    
+                    // La fila se muestra si su categoría está en el conjunto de categorías seleccionadas.
+                    const shouldShow = selectedCategories.has(categoryName);
+                    
+                    row.style.display = shouldShow ? '' : 'none';
+                }
+            });
+        }
+
+        filterAll.addEventListener('change', function() {
+            const isChecked = this.checked;
+            categoryFilters.forEach(cb => cb.checked = isChecked);
+            applyFilters();
+        });
+
+        categoryFilters.forEach(cb => cb.addEventListener('change', function() {
+            const allChecked = Array.from(categoryFilters).every(cb => cb.checked);
+            filterAll.checked = allChecked;
+            applyFilters();
+        }));
+
+        applyFilters();
+    });
+  </script>
+</body>

@@ -1,0 +1,66 @@
+[
+  {
+    "fecha": "2025-01-01",
+    "nombre": "Año Nuevo"
+  },
+  {
+    "fecha": "2025-03-29",
+    "nombre": "Viernes Santo"
+  },
+  {
+    "fecha": "2025-03-30",
+    "nombre": "Sábado Santo"
+  },
+  {
+    "fecha": "2025-05-01",
+    "nombre": "Día del Trabajo"
+  },
+  {
+    "fecha": "2025-05-21",
+    "nombre": "Día de las Glorias Navales"
+  },
+  {
+    "fecha": "2025-06-21",
+    "nombre": "Día Nacional de los Pueblos Indígenas"
+  },
+  {
+    "fecha": "2025-06-29",
+    "nombre": "San Pedro y San Pablo"
+  },
+  {
+    "fecha": "2025-07-16",
+    "nombre": "Día de la Virgen del Carmen"
+  },
+  {
+    "fecha": "2025-08-15",
+    "nombre": "Asunción de la Virgen"
+  },
+  {
+    "fecha": "2025-09-18",
+    "nombre": "Fiestas Patrias"
+  },
+  {
+    "fecha": "2025-09-19",
+    "nombre": "Día de las Glorias del Ejército"
+  },
+  {
+    "fecha": "2025-10-12",
+    "nombre": "Encuentro de Dos Mundos"
+  },
+  {
+    "fecha": "2025-10-31",
+    "nombre": "Día de la Reforma Protestante"
+  },
+  {
+    "fecha": "2025-11-01",
+    "nombre": "Día de Todos los Santos"
+  },
+  {
+    "fecha": "2025-12-08",
+    "nombre": "Inmaculada Concepción"
+  },
+  {
+    "fecha": "2025-12-25",
+    "nombre": "Navidad"
+  }
+]

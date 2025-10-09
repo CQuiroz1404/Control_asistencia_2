@@ -1,0 +1,90 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 text-center" style="position:relative;">
+            <div class="card">
+                <div class="card-header">
+                    <h1>Bienvenido al Sistema de Control de Asistencia</h1>
+                </div>
+                <div class="card-body">
+                    <p class="lead">Este sistema le permite gestionar la asistencia de los empleados de forma eficiente.</p>
+                    <hr class="my-4">
+                    <p>Para comenzar, inicie sesión.</p>
+                    <p>Nota: Si ya inicio sesión anteriormente, se le redirigira directamente al sistema.</p>
+                    <a class="btn btn-primary btn-lg" href="/login" role="button">Iniciar Sesión</a>
+                    <!-- Modal lightbox para opciones de desarrollador -->
+                    <div id="devModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1200; align-items:center; justify-content:center;">
+                        <div style="background:white; width:90%; max-width:420px; border-radius:8px; padding:18px; box-shadow:0 8px 24px rgba(0,0,0,0.2);">
+                            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                                <h5 style="margin:0;">Opciones de desarrollador</h5>
+                                <button id="devModalClose" class="btn btn-sm btn-light">✕</button>
+                            </div>
+                            <p class="mb-2">Opciones de pruebas (solo entornos no producción)</p>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" value="" id="disableTimeBlockCheckbox">
+                                <label class="form-check-label" for="disableTimeBlockCheckbox">Desactivar bloqueo horario (22:00 - 06:00)</label>
+                            </div>
+                            <div style="text-align:right;">
+                                <button id="devModalSave" class="btn btn-primary btn-sm">Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <!-- Botón de opciones de desarrollador fuera del card, alineado a la altura del card -->
+                <div id="devOptionsFloat" style="position:absolute; top:12px; right:-56px; z-index:1100;">
+                    <button id="devOptionsBtn" class="btn btn-sm btn-outline-secondary" title="Opciones de desarrollador">/dev</button>
+                </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+    // Script para manejar el panel de opciones de desarrollador en la vista home
+    (function(){
+        function readCookie(name) {
+            const v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+            return v ? v.pop() : null;
+        }
+        function setCookie(name, value, days){
+            let expires = '';
+            if (days) {
+                const d = new Date();
+                d.setTime(d.getTime() + (days*24*60*60*1000));
+                expires = '; expires=' + d.toUTCString();
+            }
+            document.cookie = name + '=' + value + expires + '; path=/';
+        }
+        function deleteCookie(name){ setCookie(name, '', -1); }
+
+        const btn = document.getElementById('devOptionsBtn');
+        const modal = document.getElementById('devModal');
+        const closeBtn = document.getElementById('devModalClose');
+        const saveBtn = document.getElementById('devModalSave');
+        const checkbox = document.getElementById('disableTimeBlockCheckbox');
+
+        function openModal(){ modal.style.display = 'flex'; }
+        function closeModal(){ modal.style.display = 'none'; }
+
+        btn.addEventListener('click', (e) => { e.stopPropagation(); openModal(); });
+        closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModal(); });
+
+        // Cerrar si se hace clic fuera del contenido del modal
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+        // Inicializar estado del checkbox según cookie
+        const current = readCookie('DEV_DISABLE_TIME_BLOCK');
+        if (checkbox) checkbox.checked = current === '1';
+
+        // Guardar cuando se presiona Guardar (cierre y persistencia)
+        saveBtn.addEventListener('click', () => {
+            if (checkbox.checked) {
+                setCookie('DEV_DISABLE_TIME_BLOCK','1',1);
+                alert('Override de tiempo desactivado para pruebas (cookie creada).');
+            } else {
+                deleteCookie('DEV_DISABLE_TIME_BLOCK');
+                alert('Override de tiempo eliminado (cookie borrada).');
+            }
+            closeModal();
+        });
+    })();
+    </script>

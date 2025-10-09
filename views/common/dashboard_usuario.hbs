@@ -1,0 +1,118 @@
+<body>
+  <div class="container mt-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="mb-0">Bienvenido, {{usuario.nombre}}</h2>
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#confirmLogoutModal">
+            Cerrar Sesión
+        </button>
+      </div>
+    </div>
+
+    <!-- Marcación de asistencia -->
+    <div class="card mb-4">
+      <div class="card-header">Marcación de Asistencia</div>
+      <div class="card-body">
+        <form id="asistenciaForm" method="POST">
+          <button type="submit" name="tipo" value="entrada" class="btn btn-success me-2">Registrar Entrada</button>
+          <button type="submit" name="tipo" value="salida" class="btn btn-danger">Registrar Salida</button>
+        </form>
+      </div>
+    </div>
+
+
+    <!-- Acceso a reportes -->
+    <div class="card mb-4">
+      <div class="card-header">Mis Reportes</div>
+      <div class="card-body">
+        <p class="mb-3">Accede a tu historial completo de asistencias y justificaciones.</p>
+        <a href="/reportes_usuario" class="btn btn-primary me-2">
+          <i class="fas fa-chart-line"></i> Ver Mis Reportes
+        </a>
+        <a href="/mis-documentos" class="btn btn-info">
+          <i class="fa-solid fa-file-invoice"></i> Estado Documentos
+        </a>
+      </div>
+    </div>
+
+    
+
+    <!-- Justificar inasistencias -->
+    <div class="card mb-4">
+      <div class="card-header">Justificaciones</div>
+      <div class="card-body">
+        <a href="/inasistencia" class="btn btn-primary">Justificar Inasistencia</a>
+        <a href="/licencia_medica" class="btn btn-primary">Justificar Licencia Medica</a>
+      </div>
+    </div>
+
+    <!-- Accesos administrativos (aparecen solo si al menos 1 está habilitado) -->
+    {{#if (or usuario.isAdmin (or (eq usuario.rol 'Administrador') (or (eq usuario.rol 'RR.HH') (eq usuario.rol 'rr.hh'))))}}
+    <div class="card mb-4">
+      <div class="card-header">Acciones avanzadas (solo roles autorizados)</div>
+      <div class="card-body">
+        {{!-- Orden: gestion de usuarios - reportes generales - editar justificaciones - ver licencias --}}
+        {{#if usuario.isAdmin}}
+        <a href="/admin/users" class="btn btn-info me-2">Gestión de Usuarios</a>
+        {{/if}}
+
+        {{#if (or (eq usuario.rol 'Administrador') (eq usuario.rol 'rr.hh'))}}
+        <a href="/reports/absence" class="btn btn-primary me-2">Reportes de Asistencia por Empleado</a>
+        {{/if}}
+
+        {{#if (or (eq usuario.rol 'Administrador') (or (eq usuario.rol 'RR.HH') (eq usuario.rol 'rr.hh')))}}
+        <a href="/admin/justificaciones" class="btn btn-warning me-2">Gestión de Justificaciones</a>
+        <a href="/admin/licencias" class="btn btn-warning">Gestión de Licencias Médicas</a>
+        {{/if}}
+      </div>
+    </div>
+    {{/if}}
+
+  </div>
+
+  <!-- Modal de Confirmación -->
+  <div class="modal fade" id="confirmLogoutModal" tabindex="-1" aria-labelledby="confirmLogoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmLogoutModalLabel">Confirmar Cierre de Sesión</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que quieres cerrar sesión?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <a href="/logout" class="btn btn-primary">Cerrar Sesión</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Notificación -->
+  <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="notificationModalLabel">Notificación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="notificationModalBody">
+          <!-- Mensaje dinámico aquí -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    window.usuarioId = {{usuario.id}};
+  </script>
+  <script src="/js/dashboard_usuario.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+{{!< layouts/main}}
+<main class="container mt-4">
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-0">{{pageTitle}}</h1>
+                    <p class="text-muted mb-0">Visualiza los reportes de asistencia filtrados por tipo y fecha.</p>
+                </div>
+
+                <div>
+                    <!-- Botón volver a la vista anterior alineado con el título -->
+                    <a href="/dashboard_usuario" class="btn btn-secondary"><i class="fa-solid fa-arrow-left me-2"></i>Volver</a>
+                    <button id="exportPdfBtn" class="btn btn-danger ms-2"><i class="fa-solid fa-file-pdf me-2"></i>Exportar PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de Filtros -->
+    <div class="row g-3 mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0">Opciones de Filtro</h5>
+                </div>
+                <div class="card-body">
+                    <form id="filterForm" method="GET" action="/reports/absence">
+                        <div class="row g-3 align-items-end">
+                            <div class="col-md-4">
+                                <label for="filterType" class="form-label">Tipo de Reporte:</label>
+                                <select class="form-select" id="filterType" name="filterType">
+                                    <option value="">Todos los Tipos (Últimos 7 días)</option>
+                                    <option value="inasistencia" {{#if (eq selectedFilter 'inasistencia')}}selected{{/if}}>Inasistencias</option>
+                                    <option value="atraso" {{#if (eq selectedFilter 'atraso')}}selected{{/if}}>Atrasos</option>
+                                    <option value="salida_anticipada" disabled>Salidas Anticipadas (Próximamente)</option>
+                                    <!-- Opciones futuras si se implementa lógica para 'ambas' -->
+                                </select>
+                            </div>
+                            <div class="col-md-auto">
+                                <button type="submit" class="btn btn-primary">Aplicar Filtro</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de Reportes Detallados -->
+    <div class="row g-3 mb-5">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0">Reportes Detallados</h5>
+                    <small class="text-muted">Registros de los últimos 7 días</small>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Usuario</th>
+                                    <th>RUT</th>
+                                    <th>Rol</th>
+                                    <th>Hora Entrada</th>
+                                    <th>Hora Salida</th>
+                                    <th>Estado</th>
+                                    <th>Categoría</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each reports}}
+                                <tr>
+                                    <td>{{this.fecha}}</td>
+                                    <td>{{this.usuario_nombre}}</td>
+                                    <td>{{this.usuario_rut}}</td>
+                                    <td>{{this.usuario_rol}}</td>
+                                    <td>{{this.hora_entrada}}</td>
+                                    <td>{{this.hora_salida}}</td>
+                                    <td>{{this.estado}}</td>
+                                    <td>{{this.categoria}}</td>
+                                </tr>
+                                {{/each}}
+                                {{#unless reports}}
+                                <tr>
+                                    <td colspan="8" class="text-center text-muted">No se encontraron reportes con los filtros seleccionados.</td>
+                                </tr>
+                                {{/unless}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Construye la URL de export respetando el filtro seleccionado en el formulario
+    (function(){
+        const exportBtn = document.getElementById('exportPdfBtn');
+        if (!exportBtn) return;
+        exportBtn.addEventListener('click', function(){
+            const select = document.getElementById('filterType');
+            const filter = select ? select.value : '';
+            const query = filter ? `?filterType=${encodeURIComponent(filter)}` : '';
+            // Abrir en nueva ventana para forzar descarga
+            window.open(`/reports/absence/export${query}`, '_blank');
+        });
+    })();
+</script>
