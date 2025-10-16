@@ -100,7 +100,7 @@ Sistema web completo para la gestión y control de asistencia de empleados, desa
 
 ## 📋 Requisitos Previos
 
-- **Node.js** v14 o superior
+- **Node.js** v22 o superior
 - **MySQL** v8.0 o superior
 - **npm** o **yarn**
 - Cuenta de correo electrónico para envío de notificaciones (opcional)
